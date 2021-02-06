@@ -1,0 +1,10 @@
+csv/*
+logs/*
+reports/*
+node_modules/
+package.json
+package-lock.json
+.idea/
+test/
+awards.js
+t.js
