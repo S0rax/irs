@@ -1,51 +1,32 @@
 const fs = require("fs");
-const path = require("path");
 const math = require("mathjs");
-const fetch = require("node-fetch");
+const utils = require("./utils");
 const parse = require("csv-parse/lib/sync");
 const plotly = require("plotly")("S0rax", "nwVqFuOtcHTo137vayJO");
 
-const url = "https://api.dmg-inc.com/reports/download/";
 const multiplier = 864e5;
 const rankCol = 9;
 const repCol = 12;
 const vanCol = 18;
 const threshold = 500;
-const logs = path.join(__dirname, "../logs/");
-const reports = path.join(__dirname, "../reports/");
-const csvs = path.join(__dirname, "../csv/");
 
-function dateFormat(date) {
-	let digit = num => num > 9 ? num : `0${num}`;
-	if (date instanceof Date) {
-		let str = [];
-		str.push(digit(date.getFullYear()), digit(date.getMonth() + 1), digit(date.getDate()));
-		return str.join("/");
-	} else {
-		return "";
-	}
+function paramHandler(params) {
+	params = params.splice(2);
+	let ret = [new Date(), 7];
+	params.forEach((param) => {
+		if (param === void 0)
+			return;
+		if (isNaN(+param)) {
+			ret[0] = new Date(param);
+		} else {
+			ret[1] = +param;
+		}
+	});
+	return ret;
 }
 
 function mnm(arr) {
 	return [math.round(math.mean(arr), 3), math.median(arr)];
-}
-
-async function getCsv(name) {
-	let dir = name.replaceAll("/", ".");
-	let path = csvs + dir + ".csv";
-	if (fs.existsSync(path)) {
-		return fs.readFileSync(path, { encoding: "utf-8" });
-	} else {
-		let data = await (await fetch(url + name)).text();
-		fs.writeFileSync(path, data);
-		return data;
-	}
-}
-
-async function reportHandler(name) {
-	let report = await getCsv(name);
-	let rows = parse(report.trim());
-	return rows.filter(row => row[rankCol] !== "Inactive");
 }
 
 function sortArrays(arrays, comparator = (a, b) => (a < b) ? -1 : (a > b) ? 1 : 0) {
@@ -69,7 +50,8 @@ function sortArrays(arrays, comparator = (a, b) => (a < b) ? -1 : (a > b) ? 1 : 
 
 (async () => {
 	"use strict";
-	let start = new Date(process.argv[2] ?? Date.now());
+	let start, span;
+	[start, span] = paramHandler(process.argv);
 	let begin = new Date(), i = 0;
 	let officerRanks = ["L4", "L5", "L6", "L7", "L8", "Leader"],
 		memberRanks = ["Member", "Captain", "Specialist", "Elite"],
@@ -107,13 +89,10 @@ function sortArrays(arrays, comparator = (a, b) => (a < b) ? -1 : (a > b) ? 1 : 
 			return this.data.trim();
 		}
 	};
-	let span = process.argv[3] ?? 7;
 	let timespan = start - multiplier * (span);
 
-	let prev = dateFormat(new Date(timespan));
-	let now = dateFormat(start);
-	let rowsPrev = await reportHandler(prev);
-	let rowsNow = await reportHandler(now);
+	let rowsPrev = await utils.reportHandler(new Date(timespan));
+	let rowsNow = await utils.reportHandler(start);
 
 	let rankStats = {};
 	let rankNames = rowsNow.map(val => val[rankCol]).filter((val, i, arr) => arr.indexOf(val) === i && i !== 0).sort();
@@ -267,7 +246,7 @@ function sortArrays(arrays, comparator = (a, b) => (a < b) ? -1 : (a > b) ? 1 : 
 			}
 		}
 	};
-	await plotly.plot(allRanks, options);
+	plotly.plot(allRanks, options);
 
 	log.add("Net income", math.sum(differences));
 	log.add("Mean and median", math.round(math.mean(differences), 3), math.median(differences)).space("=");
@@ -285,9 +264,9 @@ function sortArrays(arrays, comparator = (a, b) => (a < b) ? -1 : (a > b) ? 1 : 
 	log.add("Outliers", `${outliers.length} (${math.round(outliers.length / differences.length * 100, 3)}%)`);
 	log.space("=").add("Run at", begin.toJSON()).add("Execution time", `${new Date() - begin}ms`);
 
-	now = now.replaceAll("/", ".") + ".";
-	fs.writeFileSync(`${reports + now + span}.csv`, outcome.get());
-	fs.writeFileSync(`${logs + now + span}.log`, log.get());
+	let now = `${utils.dateFormat(start).replaceAll("/", ".")}.`;
+	fs.writeFileSync(`${utils.reportDir + now + span}.csv`, outcome.get());
+	fs.writeFileSync(`${utils.logDir + now + span}.log`, log.get());
 
 	console.log(log.get());
 	console.log(outliers);
