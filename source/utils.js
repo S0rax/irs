@@ -35,8 +35,13 @@ module.exports = {
 			return fs.readFileSync(path, "utf-8");
 		} else {
 			let data = await (await fetch(url + day)).text();
-			fs.writeFileSync(path, data);
-			return data;
+			try {
+				data = JSON.parse(data);
+			} catch (e) {
+				fs.writeFileSync(path, data);
+				return data;
+			}
+			throw new Error(`Failed to fetch the report on ${day}`);
 		}
 	},
 	/**
