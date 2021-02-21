@@ -34,25 +34,25 @@ function sortDivs(arr) {
 (async () => {
 	"use strict";
 	utils.init();
-	let rows = (await utils.reportHandler(utils.paramDate())).slice(1);
-	let divisions = utils.unique(rows.map(row => row[6]));
+	let csv = (await utils.reportHandler(utils.paramDate())).slice(1);
+	let divisions = utils.unique(csv.map(row => row["division"]));
 	sortDivs(divisions);
 
 	let divisionCount = new Map();
 	divisions.forEach(div => {
-		divisionCount.set(div, rows.filter(row => row[6] === div).length);
+		divisionCount.set(div, csv.filter(row => row["division"] === div).length);
 	});
 
 	let data = fs.readFileSync(eligible, "utf-8");
-	let sup60 = new Set(data.split("\n"));
+	let sup60 = new Set([...data.split("\n")].map(d => +d));
 	let sub60 = new Map();
 	divisionCount.forEach((v, k) => {
-		let dl = rows.find(row => row[6] === k && (row[10] === "DC" || row[10] === "DL"));
+		let dl = csv.find(row => row["division"] === k && (row["position"] === "DC" || row["position"] === "DL"));
 		if (dl !== void 0) {
 			if (v < 60) {
-				sub60.set(dl[0], v);
+				sub60.set(dl["id"], v);
 			} else {
-				sup60.add(dl[0]);
+				sup60.add(dl["id"]);
 			}
 		}
 	});
@@ -61,7 +61,7 @@ function sortDivs(arr) {
 	let names = new Map();
 	sub60.forEach((v, k) => {
 		if (sup60.has(k)) {
-			let name = rows.find(row => row[0] === k)[1];
+			let name = csv.find(row => row["id"] === k)["name"];
 			names.set(name, v);
 		}
 	});

@@ -64,8 +64,11 @@ module.exports = {
 	reportHandler: async function (time) {
 		let name = this.dateFormat(time);
 		let report = await this.getCsv(name);
-		let rows = parse(report.trim());
-		return rows.filter(row => row[9] !== "Inactive");
+		let rows = parse(report.trim(), {
+			columns: true,
+			cast: true
+		});
+		return rows.filter(row => row["rank"] !== "Inactive");
 	},
 	/**
 	 * Filter array to only contain unique values.

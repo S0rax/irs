@@ -5,9 +5,6 @@ const parse = require("csv-parse/lib/sync");
 const plotly = require("plotly")("S0rax", "nwVqFuOtcHTo137vayJO");
 
 const multiplier = 864e5;
-const rankCol = 9;
-const repCol = 12;
-const vanCol = 18;
 const threshold = 500;
 
 function paramHandler(params) {
@@ -96,7 +93,7 @@ function sortArrays(arrays, comparator = (a, b) => (a < b) ? -1 : (a > b) ? 1 : 
 	let rowsNow = await utils.reportHandler(start);
 
 	let rankStats = {};
-	let rankNames = rowsNow.map(val => val[rankCol]).filter((val, i, arr) => arr.indexOf(val) === i && i !== 0).sort();
+	let rankNames = rowsNow.map(val => val["rank"]).filter((val, i, arr) => arr.indexOf(val) === i && i !== 0).sort();
 	for (let rank of rankNames) {
 		rankStats[rank] = {
 			numbers: [],
@@ -115,15 +112,15 @@ function sortArrays(arrays, comparator = (a, b) => (a < b) ? -1 : (a > b) ? 1 : 
 			continue;
 		}
 
-		let compare = rowsNow.find(e => e[0] === row[0]);
+		let compare = rowsNow.find(e => e["id"] === row["id"]);
 		if (compare !== void 0) {
-			let diff = compare[repCol] - row[repCol];
-			let rank = compare[rankCol];
-			row[repCol] = diff;
+			let diff = compare["rep"] - row["rep"];
+			let rank = compare["rank"];
+			row["rep"] = diff;
 			differences.push(diff);
-			outcome.add(row[0], row[1], rank, row[repCol]);
+			outcome.add(row["id"], row["name"], rank, row["rep"]);
 
-			if (compare[vanCol] !== "") {
+			if (compare["vanguard"] !== "") {
 				vanguards.push(diff);
 			}
 			if (memberRanks.includes(rank)) {
@@ -133,8 +130,8 @@ function sortArrays(arrays, comparator = (a, b) => (a < b) ? -1 : (a > b) ? 1 : 
 				officers.push(diff);
 			}
 
-			if (diff > threshold && compare[vanCol] === "" || diff > threshold * 5 && compare[vanCol] !== "") {
-				outliers.push(`${compare[1]} - ${rank} - ${diff} - ${compare[vanCol] || "0x"}`);
+			if (diff > threshold && compare["vanguard"] === "" || diff > threshold * 5 && compare["vanguard"] !== "") {
+				outliers.push(`${compare["name"]} - ${rank} - ${diff} - ${compare["vanguard"] || "0x"}`);
 			}
 
 			let index = rankNames.indexOf(rank);
