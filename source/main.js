@@ -50,6 +50,7 @@ function sortArrays(arrays, comparator = (a, b) => (a < b) ? -1 : (a > b) ? 1 : 
 
 (async () => {
 	"use strict";
+	utils.init();
 	let start, span;
 	[start, span] = paramHandler(process.argv);
 	let begin = new Date(), i = 0;

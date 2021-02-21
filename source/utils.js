@@ -8,6 +8,18 @@ module.exports = {
 	reportDir: path.join(__dirname, "../reports/"),
 	csvDir: path.join(__dirname, "../csv/"),
 	/**
+	 * Check if necessary directories exist.
+	 * @return void
+	 */
+	init: function () {
+		let dirs = [this.logDir, this.reportDir, this.csvDir];
+		dirs.forEach(dir => {
+			if (!fs.existsSync(dir)) {
+				fs.mkdirSync(dir);
+			}
+		});
+	},
+	/**
 	 * Formats date to YYYY/MM/DD
 	 * @param date {Date}
 	 * @return {string}
@@ -24,8 +36,8 @@ module.exports = {
 	},
 	/**
 	 * Fetches local (if exists) or online csv and saves it.
-	 * @param day {String}
-	 * @return {String}
+	 * @param day {string}
+	 * @return {string}
 	 */
 	getCsv: async function (day) {
 		const url = "https://api.dmg-inc.com/reports/download/";
@@ -47,7 +59,7 @@ module.exports = {
 	/**
 	 * Function to handle getting and parsing csv reports.
 	 * @param time {Date}
-	 * @return {Array}
+	 * @return {string[]}
 	 */
 	reportHandler: async function (time) {
 		let name = this.dateFormat(time);
@@ -57,12 +69,20 @@ module.exports = {
 	},
 	/**
 	 * Filter array to only contain unique values.
-	 * @param arr {Array}
-	 * @param nullable {Boolean}
-	 * @return {Array}
+	 * @param arr {[]}
+	 * @param nullable {boolean}
+	 * @return {[]}
 	 */
 	unique: function (arr, nullable = false) {
 		let u = Array.from(new Set(arr));
 		return nullable ? u : u.filter(el => el !== "");
+	},
+	/**
+	 * Returns date from process param or a new date object.
+	 * @return {Date}
+	 */
+	paramDate: function () {
+		let time = process.argv[2] ?? Date.now();
+		return new Date(time);
 	}
 };
