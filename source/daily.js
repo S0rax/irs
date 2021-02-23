@@ -34,7 +34,7 @@ function sortDivs(arr) {
 (async () => {
 	"use strict";
 	utils.init();
-	let csv = (await utils.reportHandler(utils.paramDate())).slice(1);
+	let csv = await utils.reportHandler(utils.paramDate());
 	let divisions = utils.unique(csv.map(row => row["division"]));
 	sortDivs(divisions);
 

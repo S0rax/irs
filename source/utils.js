@@ -66,7 +66,12 @@ module.exports = {
 		let report = await this.getCsv(name);
 		let rows = parse(report.trim(), {
 			columns: true,
-			cast: true
+			cast: true,
+			cast_date: function (str) {
+				let d = new Date(str);
+				d.setHours(d.getHours() - 6);
+				return isNaN(d) ? str : d;
+			}
 		});
 		return rows.filter(row => row["rank"] !== "Inactive");
 	},
