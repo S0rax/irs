@@ -1,0 +1,695 @@
+{
+  "rankColours": {
+    "Associate": "#52625f",
+    "Initiate": "#52625f",
+    "Away": "#464e55",
+    "Captain": "#6b7c79",
+    "Elite": "#6b7c79",
+    "Inactive": "#1f2323",
+    "L4": "#777c6b",
+    "L5": "#948b7a",
+    "L6": "#ba7781",
+    "L7": "#6972a6",
+    "L8": "#ab63c9",
+    "Leader": "#e34535",
+    "Member": "#6b7c79",
+    "Probation": "#554d46",
+    "Specialist": "#6b7c79",
+    "Vanguard": "#6b7c79"
+  },
+  "rankLogos": {
+    "Captain": "<span style='color:#9D69B3'>♥</span>",
+    "Elite": "<span style='color:#909090'>♠</span>",
+    "L4": "<img alt='L4.png' src='https://i.imgur.com/CQwDzjf.png'>",
+    "L5": "<img alt='L5.png' src='https://i.imgur.com/ijqxopD.png'>",
+    "L6": "<img alt='L6.png' src='https://i.imgur.com/FUE0aOV.png'>",
+    "L7": "<img alt='L7.png' src='https://i.imgur.com/X0JqX1Y.png'>",
+    "L8": "<img alt='L8.png' src='https://i.imgur.com/STa0Tal.png'>",
+    "Leader": "<img alt='Leader.png' src='https://i.imgur.com/CabeovQ.png'>",
+    "Specialist": "<span style='color:#802B2B'>♦</span>",
+    "Vanguard": "<span style='color:#3E3E3E'>♣</span>"
+  },
+  "divLogos": {
+    "DI-I": {
+      "small": "https://i.imgur.com/AAnn8k8.png",
+      "big": "https://i.imgur.com/pimcStg.png"
+    },
+    "DI-II": {
+      "small": "https://i.imgur.com/tytuvYF.png",
+      "big": "https://i.imgur.com/VNlRqKr.png"
+    },
+    "DI-III": {
+      "small": "https://i.imgur.com/yCKOFYO.png",
+      "big": "https://i.imgur.com/K4cA887.png"
+    },
+    "DI-IV": {
+      "small": "https://i.imgur.com/9njynuM.png",
+      "big": "https://i.imgur.com/5KSAoFL.png"
+    },
+    "DI-V": {
+      "small": "https://i.imgur.com/FJxFVmM.png",
+      "big": "https://i.imgur.com/rGI8QoW.png"
+    },
+    "DI-VI": {
+      "small": "https://i.imgur.com/QfyXCSq.png",
+      "big": "https://i.imgur.com/UvfkGPZ.png"
+    },
+    "DI-VII": {
+      "small": "https://i.imgur.com/9H2bjVQ.png",
+      "big": "https://i.imgur.com/HfwfXqV.png"
+    },
+    "DI-VIII": {
+      "small": "https://i.imgur.com/pZE7J0H.png",
+      "big": "https://i.imgur.com/1oYMO5l.png"
+    },
+    "DI-IX": {
+      "small": "https://i.imgur.com/UmJAz0Z.png",
+      "big": "https://i.imgur.com/Y7xgSa6.png"
+    },
+    "DI-X": {
+      "small": "https://i.imgur.com/YN1iNiO.png",
+      "big": "https://i.imgur.com/WKJf5Sq.png"
+    },
+    "DI-XI": {
+      "small": "https://i.imgur.com/k7KkCd5.png",
+      "big": "https://i.imgur.com/F7HKHZR.png"
+    },
+    "DI-XII": {
+      "small": "https://i.imgur.com/hYEg6It.png",
+      "big": "https://i.imgur.com/ew2ucnI.png"
+    },
+    "DI-XIII": {
+      "small": "https://i.imgur.com/Lx7mFNc.png",
+      "big": "https://i.imgur.com/s3WEoOC.png"
+    },
+    "DI-XIV": {
+      "small": "https://i.imgur.com/nYaxcgJ.png",
+      "big": "https://i.imgur.com/eBssNBJ.png"
+    },
+    "DI-XV": {
+      "small": "https://i.imgur.com/FjTyRPF.png",
+      "big": "https://i.imgur.com/iB5RDNF.png"
+    },
+    "DI-XVI": {
+      "small": "https://i.imgur.com/vvRpRLm.png",
+      "big": "https://i.imgur.com/c1diE7Q.png"
+    },
+    "DI-XVII": {
+      "small": "https://i.imgur.com/kmV6kzS.png",
+      "big": "https://i.imgur.com/siHaI5V.png"
+    },
+    "DI-XVIII": {
+      "small": "https://i.imgur.com/3SEaEUn.png",
+      "big": "https://i.imgur.com/jrmIslf.png"
+    },
+    "DI-XIX": {
+      "small": "https://i.imgur.com/VGG16Yi.png",
+      "big": "https://i.imgur.com/AFHHxDl.png"
+    },
+    "DI-XX": {
+      "small": "https://i.imgur.com/j5KXE0x.png",
+      "big": "https://i.imgur.com/9AghAUb.png"
+    },
+    "DI-XXI": {
+      "small": "https://i.imgur.com/wHT91Gd.png",
+      "big": "https://i.imgur.com/r1uBSNS.png"
+    },
+    "DI-XXII": {
+      "small": "https://i.imgur.com/UEJUuKS.png",
+      "big": "https://i.imgur.com/meD9ykp.png"
+    },
+    "DI-XXIII": {
+      "small": "https://i.imgur.com/nY3bzNr.png",
+      "big": "https://i.imgur.com/bhmcMoS.png"
+    },
+    "DI-XXIV": {
+      "small": "https://i.imgur.com/yMYo7ob.png",
+      "big": "https://i.imgur.com/BGe5eNj.png"
+    },
+    "DI-XXV": {
+      "small": "https://i.imgur.com/jAF1aZO.png",
+      "big": "https://i.imgur.com/c6Q4vTX.png"
+    },
+    "DI-XXVI": {
+      "small": "https://i.imgur.com/B6MOfMF.png",
+      "big": "https://i.imgur.com/VM01GQV.png"
+    },
+    "DI-XXVII": {
+      "small": "https://i.imgur.com/nBa0fOf.png",
+      "big": "https://i.imgur.com/OBVBCQ2.png"
+    },
+    "DI-XXVIII": {
+      "small": "https://i.imgur.com/CMyIv9t.png",
+      "big": "https://i.imgur.com/Ie3wtqR.png"
+    },
+    "DI-XXIX": {
+      "small": "https://i.imgur.com/RKqFUA4.png",
+      "big": "https://i.imgur.com/JQXm8Yj.png"
+    },
+    "DI-XXX": {
+      "small": "https://i.imgur.com/BQzWbcT.png",
+      "big": "https://i.imgur.com/u6ilFoa.png"
+    },
+    "DI-XXXI": {
+      "small": "https://i.imgur.com/w8ONGlq.png",
+      "big": "https://i.imgur.com/mjdu39X.png"
+    },
+    "DI-XXXII": {
+      "small": "https://i.imgur.com/eNU6rGQ.png",
+      "big": "https://i.imgur.com/Ns6bLyl.png"
+    },
+    "DI-XXXIII": {
+      "small": "https://i.imgur.com/mhCHrIu.png",
+      "big": "https://i.imgur.com/d1LWbMQ.png"
+    },
+    "DI-XXXIV": {
+      "small": "https://i.imgur.com/qTUmd5F.png",
+      "big": "https://i.imgur.com/90rKmw7.png"
+    },
+    "DI-XXXV": {
+      "small": "https://i.imgur.com/vWanrFc.png",
+      "big": "https://i.imgur.com/uHWV3fJ.png"
+    },
+    "DI-XXXVI": {
+      "small": "https://i.imgur.com/PNKsW9W.png",
+      "big": "https://i.imgur.com/kxJ2NlC.png"
+    },
+    "DI-XXXVII": {
+      "small": "https://i.imgur.com/JNZuy06.png",
+      "big": "https://i.imgur.com/b8AXJ8Z.png"
+    },
+    "DI-XXXVIII": {
+      "small": "https://i.imgur.com/87rQfuv.png",
+      "big": "https://i.imgur.com/Y6jECi3.png"
+    },
+    "DI-XXXIX": {
+      "small": "https://i.imgur.com/Gc4OCy9.png",
+      "big": "https://i.imgur.com/Lz2E3GA.png"
+    },
+    "DI-XL": {
+      "small": "https://i.imgur.com/BPSK5au.png",
+      "big": "https://i.imgur.com/kZG4JiT.png"
+    },
+    "DI-XLI": {
+      "small": "https://i.imgur.com/Ur7atBn.png",
+      "big": "https://i.imgur.com/I15MjO0.png"
+    },
+    "DI-XLII": {
+      "small": "https://i.imgur.com/oYuiTF9.png",
+      "big": "https://i.imgur.com/GY1SnnS.png"
+    },
+    "DI-XLIII": {
+      "small": "https://i.imgur.com/5ugrwsZ.png",
+      "big": "https://i.imgur.com/ocvJa6D.png"
+    },
+    "DI-XLIV": {
+      "small": "https://i.imgur.com/rSNnvBu.png",
+      "big": "https://i.imgur.com/UvbCfph.png"
+    },
+    "DI-XLV": {
+      "small": "https://i.imgur.com/UAHS4o7.png",
+      "big": "https://i.imgur.com/8RK1yvw.png"
+    },
+    "DI-XLVI": {
+      "small": "https://i.imgur.com/02Vmyd0.png",
+      "big": "https://i.imgur.com/HAXWkYC.png"
+    },
+    "DI-XLVII": {
+      "small": "https://i.imgur.com/c8piorA.png",
+      "big": "https://i.imgur.com/uKQEphU.png"
+    },
+    "DI-XLVIII": {
+      "small": "https://i.imgur.com/6cV6ff2.png",
+      "big": "https://i.imgur.com/xBHpS3X.png"
+    },
+    "DI-XLIX": {
+      "small": "https://i.imgur.com/9ddjQED.png",
+      "big": "https://i.imgur.com/wGNrXBq.png"
+    },
+    "DI-L": {
+      "small": "https://i.imgur.com/NCtt0kj.png",
+      "big": "https://i.imgur.com/IIZnEEN.png"
+    },
+    "DI-LI": {
+      "small": "https://i.imgur.com/lEczaXX.png",
+      "big": "https://i.imgur.com/Xy07Uqt.png"
+    },
+    "DI-LII": {
+      "small": "https://i.imgur.com/T2ygeZ1.png",
+      "big": "https://i.imgur.com/wdTziqg.png"
+    },
+    "DI-LIII": {
+      "small": "https://i.imgur.com/8Nr0lPD.png",
+      "big": "https://i.imgur.com/BgI57bb.png"
+    },
+    "DI-LIV": {
+      "small": "https://i.imgur.com/gutIM19.png",
+      "big": "https://i.imgur.com/4ajKXxU.png"
+    },
+    "DI-LV": {
+      "small": "https://i.imgur.com/9MsxTiC.png",
+      "big": "https://i.imgur.com/ki26ayb.png"
+    },
+    "DI-LVI": {
+      "small": "https://i.imgur.com/KTUXjBS.png",
+      "big": "https://i.imgur.com/TEJiTBV.png"
+    },
+    "DI-LVII": {
+      "small": "https://i.imgur.com/htdcQkn.png",
+      "big": "https://i.imgur.com/BRkNvOR.png"
+    },
+    "DI-LVIII": {
+      "small": "https://i.imgur.com/wHwQSgp.png",
+      "big": "https://i.imgur.com/jcR29eq.png"
+    },
+    "DI-LIX": {
+      "small": "https://i.imgur.com/qOEgEgN.png",
+      "big": "https://i.imgur.com/Xswgxz6.png"
+    },
+    "DI-LX": {
+      "small": "https://i.imgur.com/PM1WB3e.png",
+      "big": "https://i.imgur.com/wRAqUqn.png"
+    },
+    "DI-J1": {
+      "small": "https://i.imgur.com/FAWjruz.png",
+      "big": "https://i.imgur.com/92WKqcj.png"
+    },
+    "DI-J2": {
+      "small": "https://i.imgur.com/FAWjruz.png",
+      "big": "https://i.imgur.com/92WKqcj.png"
+    },
+    "DI-J3": {
+      "small": "https://i.imgur.com/FAWjruz.png",
+      "big": "https://i.imgur.com/92WKqcj.png"
+    },
+    "DI-J4": {
+      "small": "https://i.imgur.com/FAWjruz.png",
+      "big": "https://i.imgur.com/92WKqcj.png"
+    },
+    "DI-J5": {
+      "small": "https://i.imgur.com/FAWjruz.png",
+      "big": "https://i.imgur.com/92WKqcj.png"
+    },
+    "DI-D1": {
+      "small": "https://i.imgur.com/kmmoBU6.png",
+      "big": "https://i.imgur.com/bW30FMY.png"
+    },
+    "DI-D2": {
+      "small": "https://i.imgur.com/kmmoBU6.png",
+      "big": "https://i.imgur.com/bW30FMY.png"
+    },
+    "DI-D3": {
+      "small": "https://i.imgur.com/kmmoBU6.png",
+      "big": "https://i.imgur.com/bW30FMY.png"
+    },
+    "DI-D4": {
+      "small": "https://i.imgur.com/kmmoBU6.png",
+      "big": "https://i.imgur.com/bW30FMY.png"
+    },
+    "DI-D5": {
+      "small": "https://i.imgur.com/kmmoBU6.png",
+      "big": "https://i.imgur.com/bW30FMY.png"
+    },
+    "DI-S1": {
+      "small": "https://i.imgur.com/6auXq2H.png",
+      "big": "https://i.imgur.com/fXlpCjz.png"
+    },
+    "DI-S2": {
+      "small": "https://i.imgur.com/6auXq2H.png",
+      "big": "https://i.imgur.com/fXlpCjz.png"
+    },
+    "DI-S3": {
+      "small": "https://i.imgur.com/6auXq2H.png",
+      "big": "https://i.imgur.com/fXlpCjz.png"
+    },
+    "DI-S4": {
+      "small": "https://i.imgur.com/6auXq2H.png",
+      "big": "https://i.imgur.com/fXlpCjz.png"
+    },
+    "DI-S5": {
+      "small": "https://i.imgur.com/6auXq2H.png",
+      "big": "https://i.imgur.com/fXlpCjz.png"
+    },
+    "DI-L1": {
+      "small": "https://i.imgur.com/rxqh5iH.png",
+      "big": "https://i.imgur.com/wt5tolT.png"
+    },
+    "DI-L2": {
+      "small": "https://i.imgur.com/rxqh5iH.png",
+      "big": "https://i.imgur.com/wt5tolT.png"
+    },
+    "DI-L3": {
+      "small": "https://i.imgur.com/rxqh5iH.png",
+      "big": "https://i.imgur.com/wt5tolT.png"
+    },
+    "DI-L4": {
+      "small": "https://i.imgur.com/rxqh5iH.png",
+      "big": "https://i.imgur.com/wt5tolT.png"
+    },
+    "DI-L5": {
+      "small": "https://i.imgur.com/rxqh5iH.png",
+      "big": "https://i.imgur.com/wt5tolT.png"
+    },
+    "DI-T1": {
+      "small": "https://i.imgur.com/INM9pWi.png",
+      "big": "https://i.imgur.com/xdxziTx.png"
+    },
+    "DI-T2": {
+      "small": "https://i.imgur.com/INM9pWi.png",
+      "big": "https://i.imgur.com/xdxziTx.png"
+    },
+    "DI-T3": {
+      "small": "https://i.imgur.com/INM9pWi.png",
+      "big": "https://i.imgur.com/xdxziTx.png"
+    },
+    "DI-T4": {
+      "small": "https://i.imgur.com/INM9pWi.png",
+      "big": "https://i.imgur.com/xdxziTx.png"
+    },
+    "DI-T5": {
+      "small": "https://i.imgur.com/INM9pWi.png",
+      "big": "https://i.imgur.com/xdxziTx.png"
+    },
+    "AFU": {
+      "small": "https://i.imgur.com/YQ1Hc15.png",
+      "big": "https://i.imgur.com/behfGh6.png"
+    },
+    "VP": {
+      "small": "https://i.imgur.com/9O3P6ji.png",
+      "big": "https://i.imgur.com/4ezJGfq.png"
+    },
+    "LM": {
+      "small": "https://i.imgur.com/xBBfae6.png",
+      "big": "https://i.imgur.com/efbPkpZ.png"
+    },
+    "IMP": {
+      "small": "https://i.imgur.com/BSvVC7R.png",
+      "big": "https://i.imgur.com/YebeiM5.png"
+    },
+    "misc": {
+      "DI": "https://i.imgur.com/23otOh3.png",
+      "Vanguard": "https://i.imgur.com/e981HBu.png"
+    }
+  },
+  "awards": {
+    "Reputation": {
+      "Category": "https://forum.dmginc.gg/awards/category/3-reputation-tokens/",
+      "Casual": "https://i.imgur.com/7v0PmsF.png",
+      "Comp": "https://i.imgur.com/hXV54TA.png",
+      "Community": "https://i.imgur.com/ApBQPT9.png",
+      "Recruit": "https://i.imgur.com/OwUOkzP.png",
+      "Host": "https://i.imgur.com/oC4v7DQ.png",
+      "Profession": "https://i.imgur.com/vKQwCuj.png",
+      "Challenger": "https://i.imgur.com/D55Axen.png",
+      "Spent": "https://i.imgur.com/jKWP9lE.png"
+    },
+    "Performance": {
+      "Category": "https://forum.dmginc.gg/awards/category/1-performance-awards/",
+      "Valor1": "https://i.imgur.com/icPYJzF.png",
+      "Valor2": "https://i.imgur.com/HeOHFsE.png",
+      "Valor3": "https://i.imgur.com/g3X6Fwl.png",
+      "Motm": "https://i.imgur.com/ndA57Ol.png"
+    },
+    "Triumphs": {
+      "Category": "https://forum.dmginc.gg/awards/category/4-triumphs/",
+      "Architect": {
+        "logo": "https://i.imgur.com/2q4xYqf.png",
+        "desc": "\"Man is the master of his own fate, not the gods. The gods are man's creation to give answers that they are too afraid to give themselves\" - Ragnar Lothbrok",
+        "text": "Awarded to DL and DV for successfully leading the growth of division1 (game) from a seed in House house during month year."
+      },
+      "Eden": {
+        "logo": "https://i.imgur.com/slK9OFC.png",
+        "desc": "\"Great empires are not maintained by timidity.\" - Tacitus",
+        "text": "Awarded to DL for successfully leading a split to form division2 (game) as Division Leader of division1 in House house during month year."
+      },
+      "Vanquisher": {
+        "logo": "https://i.imgur.com/rKiUqEf.png",
+        "desc": "\"The god of war hates those who hesitate.\" - Euripides",
+        "text": "Awarded to DL and DV for leading division1 to victory during Operation Crusher V in month year."
+      },
+      "Artisan": {
+        "logo": "https://i.imgur.com/Y7YN9Vm.png",
+        "desc": "\"Every new beginning comes from some other beginning’s end.\" - Seneca",
+        "text": "Awarded to DL for successfully leading the re-formation of division1 as Division Leader through a game seed in month year."
+      },
+      "Conqueror": {
+        "logo": "https://i.imgur.com/M4sPdHl.png",
+        "desc": "\"Opportunities multiply as they are seized.\" - Sun Tzu",
+        "text": "Awarded to DL and DV for successfully leading division1 (game) to Super Division Status in House house during month year."
+      },
+      "Victor": {
+        "logo": "https://i.imgur.com/jFN99sJ.png",
+        "desc": "\"Nothing happens to anybody which he is not fitted by nature to bear\" - Marcus Aurelius",
+        "text": ""
+      },
+      "Merchant": {
+        "logo": "https://i.imgur.com/YNpd3lz.png",
+        "desc": "\"Let them hate us as long as they fear us\" - Caligula",
+        "text": ""
+      }
+    },
+    "Officer": {
+      "Category": "https://forum.dmginc.gg/awards/category/5-officer-achievements/",
+      "General's Signet V": {
+        "logo": "https://i.imgur.com/SgfCtm5.png",
+        "url": "https://forum.dmginc.gg/index.php?app=awards&module=awards&controller=awards&do=awarded&id=37&page=",
+        "rank": "L4"
+      },
+      "General's Signet IV": {
+        "logo": "https://i.imgur.com/xh7UpKq.png",
+        "url": "https://forum.dmginc.gg/index.php?app=awards&module=awards&controller=awards&do=awarded&id=38&page=",
+        "rank": "L4"
+      },
+      "General's Signet III": {
+        "logo": "https://i.imgur.com/dauYZCB.png",
+        "url": "https://forum.dmginc.gg/index.php?app=awards&module=awards&controller=awards&do=awarded&id=39&page=",
+        "rank": "L4"
+      },
+      "General's Signet II": {
+        "logo": "https://i.imgur.com/4Q0Kqj7.png",
+        "url": "https://forum.dmginc.gg/index.php?app=awards&module=awards&controller=awards&do=awarded&id=40&page=",
+        "rank": "L4"
+      },
+      "General's Signet I": {
+        "logo": "https://i.imgur.com/rAgCBJ6.png",
+        "url": "https://forum.dmginc.gg/index.php?app=awards&module=awards&controller=awards&do=awarded&id=41&page=",
+        "rank": "L4"
+      },
+      "Commander's Signet V": {
+        "logo": "https://i.imgur.com/qdDZLWl.png",
+        "url": "https://forum.dmginc.gg/index.php?app=awards&module=awards&controller=awards&do=awarded&id=48&page=",
+        "rank": "L4"
+      },
+      "Commander's Signet IV": {
+        "logo": "https://i.imgur.com/Zw3jG6r.png",
+        "url": "https://forum.dmginc.gg/index.php?app=awards&module=awards&controller=awards&do=awarded&id=49&page=",
+        "rank": "L4"
+      },
+      "Commander's Signet III": {
+        "logo": "https://i.imgur.com/rPYz85y.png",
+        "url": "https://forum.dmginc.gg/index.php?app=awards&module=awards&controller=awards&do=awarded&id=50&page=",
+        "rank": "L4"
+      },
+      "Commander's Signet II": {
+        "logo": "https://i.imgur.com/hJiTJ4L.png",
+        "url": "https://forum.dmginc.gg/index.php?app=awards&module=awards&controller=awards&do=awarded&id=51&page=",
+        "rank": "L4"
+      },
+      "Commander's Signet I": {
+        "logo": "https://i.imgur.com/hXoTNHB.png",
+        "url": "https://forum.dmginc.gg/index.php?app=awards&module=awards&controller=awards&do=awarded&id=52&page=",
+        "rank": "L4"
+      },
+      "Commander's Gauntlet V": {
+        "logo": "https://i.imgur.com/UTpuJTi.png",
+        "url": "https://forum.dmginc.gg/index.php?app=awards&module=awards&controller=awards&do=awarded&id=42&page=",
+        "rank": "L4"
+      },
+      "Commander's Gauntlet IV": {
+        "logo": "https://i.imgur.com/XRjocyJ.png",
+        "url": "https://forum.dmginc.gg/index.php?app=awards&module=awards&controller=awards&do=awarded&id=43&page=",
+        "rank": "L4"
+      },
+      "Commander's Gauntlet III": {
+        "logo": "https://i.imgur.com/B3b9NA7.png",
+        "url": "https://forum.dmginc.gg/index.php?app=awards&module=awards&controller=awards&do=awarded&id=44&page=",
+        "rank": "L4"
+      },
+      "Commander's Gauntlet II": {
+        "logo": "https://i.imgur.com/rhhdfYZ.png",
+        "url": "https://forum.dmginc.gg/index.php?app=awards&module=awards&controller=awards&do=awarded&id=45&page=",
+        "rank": "L4"
+      },
+      "Commander's Gauntlet I": {
+        "logo": "https://i.imgur.com/FsB2PGQ.png",
+        "url": "https://forum.dmginc.gg/index.php?app=awards&module=awards&controller=awards&do=awarded&id=46&page=",
+        "rank": "L4"
+      },
+      "Captain's Gauntlet V": {
+        "logo": "https://i.imgur.com/ygndDIl.png",
+        "url": "https://forum.dmginc.gg/index.php?app=awards&module=awards&controller=awards&do=awarded&id=57&page=",
+        "rank": "L4"
+      },
+      "Captain's Gauntlet IV": {
+        "logo": "https://i.imgur.com/9qkKGDQ.png",
+        "url": "https://forum.dmginc.gg/index.php?app=awards&module=awards&controller=awards&do=awarded&id=58&page=",
+        "rank": "L4"
+      },
+      "Captain's Gauntlet III": {
+        "logo": "https://i.imgur.com/zZHtW1O.png",
+        "url": "https://forum.dmginc.gg/index.php?app=awards&module=awards&controller=awards&do=awarded&id=59&page=",
+        "rank": "L4"
+      },
+      "Captain's Gauntlet II": {
+        "logo": "https://i.imgur.com/m5EnfNQ.png",
+        "url": "https://forum.dmginc.gg/index.php?app=awards&module=awards&controller=awards&do=awarded&id=60&page=",
+        "rank": "L4"
+      },
+      "Captain's Gauntlet I": {
+        "logo": "https://i.imgur.com/4YBHmfx.png",
+        "url": "https://forum.dmginc.gg/index.php?app=awards&module=awards&controller=awards&do=awarded&id=61&page=",
+        "rank": "L4"
+      },
+      "Captain's Plate V": {
+        "logo": "https://i.imgur.com/SoTfmwh.png",
+        "url": "https://forum.dmginc.gg/index.php?app=awards&module=awards&controller=awards&do=awarded&id=132&page=",
+        "rank": "L4"
+      },
+      "Captain's Plate IV": {
+        "logo": "https://i.imgur.com/nedGDm2.png",
+        "url": "https://forum.dmginc.gg/index.php?app=awards&module=awards&controller=awards&do=awarded&id=131&page=",
+        "rank": "L4"
+      },
+      "Captain's Plate III": {
+        "logo": "https://i.imgur.com/EVSUFLG.png",
+        "url": "https://forum.dmginc.gg/index.php?app=awards&module=awards&controller=awards&do=awarded&id=130&page=",
+        "rank": "L4"
+      },
+      "Captain's Plate II": {
+        "logo": "https://i.imgur.com/A1bNTx3.png",
+        "url": "https://forum.dmginc.gg/index.php?app=awards&module=awards&controller=awards&do=awarded&id=129&page=",
+        "rank": "L4"
+      },
+      "Captain's Plate I": {
+        "logo": "https://i.imgur.com/prdusUt.png",
+        "url": "https://forum.dmginc.gg/index.php?app=awards&module=awards&controller=awards&do=awarded&id=128&page=",
+        "rank": "L4"
+      },
+      "Warden's Boot V": {
+        "logo": "https://i.imgur.com/XOMXRFG.png",
+        "url": "https://forum.dmginc.gg/index.php?app=awards&module=awards&controller=awards&do=awarded&id=79&page="
+      },
+      "Warden's Boot IV": {
+        "logo": "https://i.imgur.com/8oGYoXw.png",
+        "url": "https://forum.dmginc.gg/index.php?app=awards&module=awards&controller=awards&do=awarded&id=80&page="
+      },
+      "Warden's Boot III": {
+        "logo": "https://i.imgur.com/E1u3LnJ.png",
+        "url": "https://forum.dmginc.gg/index.php?app=awards&module=awards&controller=awards&do=awarded&id=81&page="
+      },
+      "Warden's Boot II": {
+        "logo": "https://i.imgur.com/K1E5H6A.png",
+        "url": "https://forum.dmginc.gg/index.php?app=awards&module=awards&controller=awards&do=awarded&id=82&page="
+      },
+      "Warden's Boot I": {
+        "logo": "https://i.imgur.com/nv9TBTa.png",
+        "url": "https://forum.dmginc.gg/index.php?app=awards&module=awards&controller=awards&do=awarded&id=83&page="
+      }
+    },
+    "Member": {
+      "Category": "https://forum.dmginc.gg/awards/category/6-member-achievements/",
+      "Odin's Kin I": {
+        "logo": "https://i.imgur.com/VWQ84KO.png",
+        "url": "https://forum.dmginc.gg/index.php?app=awards&module=awards&controller=awards&do=awarded&id=66&page="
+      },
+      "Odin's Kin II": {
+        "logo": "https://i.imgur.com/GVgC6hR.png",
+        "url": "https://forum.dmginc.gg/index.php?app=awards&module=awards&controller=awards&do=awarded&id=65&page="
+      },
+      "Odin's Kin III": {
+        "logo": "https://i.imgur.com/EhvBGXd.png",
+        "url": "https://forum.dmginc.gg/index.php?app=awards&module=awards&controller=awards&do=awarded&id=64&page="
+      },
+      "Odin's Kin IV": {
+        "logo": "https://i.imgur.com/10Pfy3M.png",
+        "url": "https://forum.dmginc.gg/index.php?app=awards&module=awards&controller=awards&do=awarded&id=63&page="
+      },
+      "Odin's Kin V": {
+        "logo": "https://i.imgur.com/LmabdIe.png",
+        "url": "https://forum.dmginc.gg/index.php?app=awards&module=awards&controller=awards&do=awarded&id=62&page="
+      },
+      "Elite I": {
+        "logo": "https://i.imgur.com/4sUYs4V.png",
+        "url": "https://forum.dmginc.gg/index.php?app=awards&module=awards&controller=awards&do=awarded&id=133&page="
+      },
+      "Elite II": {
+        "logo": "https://i.imgur.com/w0rs2ML.png",
+        "url": "https://forum.dmginc.gg/index.php?app=awards&module=awards&controller=awards&do=awarded&id=134&page="
+      },
+      "Elite III": {
+        "logo": "https://i.imgur.com/UqeWJVJ.png",
+        "url": "https://forum.dmginc.gg/index.php?app=awards&module=awards&controller=awards&do=awarded&id=135&page="
+      },
+      "Elite IV": {
+        "logo": "https://i.imgur.com/OC7zJmp.png",
+        "url": "https://forum.dmginc.gg/index.php?app=awards&module=awards&controller=awards&do=awarded&id=136&page="
+      },
+      "Elite V": {
+        "logo": "https://i.imgur.com/y3vZumi.png",
+        "url": "https://forum.dmginc.gg/index.php?app=awards&module=awards&controller=awards&do=awarded&id=137&page="
+      }
+    },
+    "Special": {
+      "Category": "https://forum.dmginc.gg/awards/category/8-special-achievements/",
+      "Legend of House Dagger": {
+        "logo": "https://i.imgur.com/ZVcwRzE.png",
+        "url": "https://forum.dmginc.gg/index.php?app=awards&module=awards&controller=awards&do=awarded&id=68&page="
+      },
+      "Legend of House Javelin": {
+        "logo": "https://i.imgur.com/568W6ZN.png",
+        "url": "https://forum.dmginc.gg/index.php?app=awards&module=awards&controller=awards&do=awarded&id=69&page="
+      },
+      "Legend of House Longbow": {
+        "logo": "https://i.imgur.com/XYVbK3Z.png",
+        "url": "https://forum.dmginc.gg/index.php?app=awards&module=awards&controller=awards&do=awarded&id=70&page="
+      },
+      "Legend of House Sabre": {
+        "logo": "https://i.imgur.com/yVk71jj.png",
+        "url": "https://forum.dmginc.gg/index.php?app=awards&module=awards&controller=awards&do=awarded&id=71&page="
+      },
+      "Legend of House Trident": {
+        "logo": "https://i.imgur.com/G2Fet2v.png",
+        "url": "https://forum.dmginc.gg/index.php?app=awards&module=awards&controller=awards&do=awarded&id=67&page="
+      },
+      "Elder I": {
+        "logo": "https://i.imgur.com/9v9vn2o.png",
+        "url": "https://forum.dmginc.gg/index.php?app=awards&module=awards&controller=awards&do=awarded&id=72&page="
+      },
+      "Elder II": {
+        "logo": "https://i.imgur.com/2dx0LO1.png",
+        "url": "https://forum.dmginc.gg/index.php?app=awards&module=awards&controller=awards&do=awarded&id=92&page="
+      },
+      "Elder III": {
+        "logo": "https://i.imgur.com/8dqK5CY.png",
+        "url": "https://forum.dmginc.gg/index.php?app=awards&module=awards&controller=awards&do=awarded&id=93&page="
+      },
+      "Elder IV": {
+        "logo": "https://i.imgur.com/civ42wP.png",
+        "url": "https://forum.dmginc.gg/index.php?app=awards&module=awards&controller=awards&do=awarded&id=94&page="
+      },
+      "Elder V": {
+        "logo": "https://i.imgur.com/hSHp28b.png",
+        "url": "https://forum.dmginc.gg/index.php?app=awards&module=awards&controller=awards&do=awarded&id=95&page="
+      },
+      "LM1": "https://i.imgur.com/YFS1iqK.png",
+      "LM2": "https://i.imgur.com/OuRy6bD.png",
+      "LM3": "https://i.imgur.com/zSO0CKJ.png",
+      "IMP1": "https://i.imgur.com/DaJilwO.png",
+      "IMP2": "https://i.imgur.com/RSHgkmn.png",
+      "IMP3": "https://i.imgur.com/fIglv6b.png"
+    },
+    "Record": {
+      "Category": "https://forum.dmginc.gg/awards/category/10-record-holders/"
+    }
+  }
+}
