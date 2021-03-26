@@ -59,9 +59,10 @@ module.exports = {
 	/**
 	 * Function to handle getting and parsing csv reports.
 	 * @param time {Date}
+	 * @param filter {function|boolean}
 	 * @return {string[]}
 	 */
-	reportHandler: async function (time) {
+	reportHandler: async function (time, filter = false) {
 		let name = this.dateFormat(time);
 		let report = await this.getCsv(name);
 		let rows = parse(report.trim(), {
@@ -73,7 +74,10 @@ module.exports = {
 				return isNaN(d) ? str : d;
 			}
 		});
-		return rows.filter(row => row["rank"] !== "Inactive");
+		if (!filter)
+			return rows.filter(row => row["rank"] !== "Inactive" && row["rank"] !== "Applicant" && row["member_rank"] !== "Inactive" && row["member_rank"] !== "Applicant");
+		else
+			return rows.filter(row => filter(row));
 	},
 	/**
 	 * Filter array to only contain unique values.

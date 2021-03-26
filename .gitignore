@@ -1,9 +1,11 @@
-csv/*
-logs/*
-reports/*
 node_modules/
 package.json
 package-lock.json
 .idea/
-test/
-awards.js
+csv/*
+logs/*
+reports/*
+source/test/
+source/aide/input/
+source/aide/output/
+divisions.tsv

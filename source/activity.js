@@ -95,7 +95,7 @@ async function getTokens(data) {
 	let formattedCompTokens = format(compTokens, now, prev);
 
 	console.log("Processing TLs");
-	bar.start(teamLeaders.length, 0);
+	bar.start(teamLeaders.length);
 	for (let teamLeader of teamLeaders) {
 		let id = formattedTokens.replace("[ID]", teamLeader);
 		let str = JSON.stringify(JSON.parse(id));
@@ -111,7 +111,7 @@ async function getTokens(data) {
 
 	let failed = new Map([...data].filter(([k, v]) => v < 5));
 
-	bar.start(failed.size, 0);
+	bar.start(failed.size);
 	for (let [teamLeader, points] of failed) {
 		let row = rows.find(row => row["id"] === teamLeader);
 		let div = row["division"];
