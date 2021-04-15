@@ -1,4 +1,5 @@
 const utils = require("../utils");
+const { writeFileSync } = require("fs");
 
 function addition(arr, col, avg = true) {
 	let num = arr.reduce((acc, row) => acc + +row[col], 0);
@@ -9,7 +10,7 @@ function addition(arr, col, avg = true) {
 	"use strict";
 	utils.init();
 
-	let date = new Date("2021-03-01");
+	let date = new Date("2021-04-01");
 	let rows = await utils.reportHandler(date);
 	let houses = new Map([
 		["Trident", {}],
@@ -37,5 +38,16 @@ function addition(arr, col, avg = true) {
 		stats["events_attended"] = eventsAttended;
 		stats["discord"] = discord;
 	}
-	console.log(date.toLocaleDateString("en-GB"), houses);
+
+	let string = "";
+	for (let stat in houses.get("Trident")) {
+		let str = "";
+		for (let [house, stats] of houses) {
+			str += stats[stat] + ",";
+		}
+		string += str.slice(0, -1) + "\n";
+		// console.log(str);
+	}
+	writeFileSync("test.tsv", string);
+	// console.log(date.toLocaleDateString("en-GB"), houses);
 })();

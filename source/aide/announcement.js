@@ -32,7 +32,7 @@ function inputHandler(type, path) {
 				};
 				if (line.length !== 2) {
 					if (line.length !== 0) {
-						console.error("Unexpected amount of columns");
+						console.error("Unexpected amount of columns: ", line.length, line);
 						throw line;
 					}
 					return obj;
@@ -49,7 +49,7 @@ function inputHandler(type, path) {
 				};
 				if (line.length !== 2) {
 					if (line.length !== 0) {
-						console.error("Unexpected amount of columns");
+						console.error("Unexpected amount of columns: ", line.length, line);
 						throw line;
 					}
 					return obj;
@@ -84,7 +84,7 @@ function inputHandler(type, path) {
 					}
 				} else {
 					if (line.length !== 0) {
-						console.error("Unexpected amount of columns");
+						console.error("Unexpected amount of columns: ", line.length, line);
 						throw line;
 					}
 				}
@@ -117,7 +117,7 @@ function inputHandler(type, path) {
 					}
 				} else {
 					if (line.length !== 0) {
-						console.error("Unexpected amount of columns");
+						console.error("Unexpected amount of columns: ", line.length, line);
 						throw line;
 					}
 				}
@@ -127,17 +127,17 @@ function inputHandler(type, path) {
 			return data.map(line => {
 				let obj = {
 					"name": undefined,
-					"months": undefined
+					"startDate": undefined
 				};
 				if (line.length !== 2) {
 					if (line.length !== 0) {
-						console.error("Unexpected amount of columns");
+						console.error("Unexpected amount of columns: ", line.length, line);
 						throw line;
 					}
 					return obj;
 				}
 				obj.name = line[0];
-				obj.months = +line[1];
+				obj.startDate = new Date(line[1]);
 				return obj;
 			});
 	}
@@ -266,12 +266,11 @@ async function getUrl(url) {
 (async () => {
 	"use strict";
 	utils.init();
-	let ymd = "2021-03-05";
+	let ymd = "2021-04-01";
 	let now = new Date(ymd);
 	let rows = await utils.reportHandler(now);
 	let announcementHTML = "";
 	let newsDate = new Date(now.getFullYear(), now.getMonth() - 1, 5);
-	newsDate.setMonth(now.getMonth() - 1);
 	let { rankColours, rankLogos, divLogos, awards } = JSON.parse(readFileSync(join(__dirname, "links.json"), "utf-8"));
 
 	// 1. intro
@@ -316,7 +315,7 @@ async function getUrl(url) {
 	vanguardHtml += createBlock("text", "Thanks to these awesome people we are one step closer to achieving our 2021 Goals - so shout out to all the members below for taking the leap of faith and backing DI!");
 
 	let vanguards = inputHandler("Vanguard", "listVanguard.txt");
-	let activeVanguard = vanguards.filter(vg => vg["months"] === 1).map(vg => vg["name"]);
+	let activeVanguard = vanguards.filter(vg => vg["startDate"] >= newsDate && rows.find(row => row["name"])).map(vg => vg["name"]);
 	let vgLogo = linkToImg(divLogos["misc"]["Vanguard"], 32);
 	let cols = 4;
 	let vanguardTable = `<table style="border: 0; width: 100%"><tr><td colspan="${cols}">${vgLogo} <span style="color: #802b2b; font-size: 16px">Vanguard (${activeVanguard.length})</span></td></tr><tr>`;
@@ -463,13 +462,18 @@ async function getUrl(url) {
 
 		if (rankA !== rankB)
 			return rankB - rankA;
+		// house on top
+		if (a["position"].includes("House"))
+			return -1;
+		if (b["position"].includes("House"))
+			return 1;
 		// faction on top
 		if (a["position"].includes("Faction"))
 			return -1;
 		if (b["position"].includes("Faction"))
 			return 1;
+		// seeds and orders
 		if (!divA && !divB) {
-			// seeds and orders
 			if (a["unit"].length !== b["unit"].length)
 				return b["unit"].length - a["unit"].length;
 			return a["unit"].length > 3 ? a["unit"].localeCompare(b["unit"]) : orderVal(a["unit"]) - orderVal(b["unit"]);
@@ -496,19 +500,21 @@ async function getUrl(url) {
 		let logo = rankLogos[promo["rank"]];
 		let colour = rankColours[promo["rank"]];
 		let position = promo["position"];
-		let arabic = deromanize(promo["unit"]);
+		let unit = promo["unit"];
+		let arabic = deromanize(unit);
 		let unitText;
 
+		// seeds and orders
 		if (arabic === false) {
-			unitText = promo["unit"];
+			unitText = unit.startsWith("DI-") ? `${unit.substr(3)} Division` : unit;
 		} else {
 			unitText = `${ordinal(arabic)} Division`;
 		}
 		if (position.startsWith("Division") && position !== "Division Leader") {
 			position = position.substring(9);
 		}
-		if (position.includes("Faction")) {
-			unitText = `${promo["unit"]} ${promo["house"]}`;
+		if (position.includes("Faction") || position.includes("House")) {
+			unitText = `${unit} ${promo["house"]}`;
 		}
 		if (unitText !== "") {
 			position += ` - ${unitText}`;
@@ -564,13 +570,13 @@ async function getUrl(url) {
 	achievementsHtml += createBlock("text", `Congratulations to the following ${linkToA(awards["Member"]["Category"], "member achievements")}:`);
 
 	let memberAwards = { ...awards["Member"], ...awards["Special"] };
-	delete memberAwards.category;
-	delete memberAwards.LM1;
-	delete memberAwards.LM2;
-	delete memberAwards.LM3;
-	delete memberAwards.IMP1;
-	delete memberAwards.IMP2;
-	delete memberAwards.IMP3;
+	delete memberAwards["category"];
+	delete memberAwards["LM1"];
+	delete memberAwards["LM2"];
+	delete memberAwards["LM3"];
+	delete memberAwards["IMP1"];
+	delete memberAwards["IMP2"];
+	delete memberAwards["IMP3"];
 
 	let awardedMembers = new Map();
 	for (let awardName in memberAwards) {
@@ -633,20 +639,6 @@ async function getUrl(url) {
 		memberAwardsTable += "</tr>";
 	}
 	memberAwardsTable += "</table>";
-	// for (let awardName in Object.keys(Object.fromEntries(awardedMembers))) {
-	// 	memberAwardsTable += `<td>${linkToImg(awardName, 64)}</td>`;
-	// }
-	// // memberAwardsTable += "</tr>";
-	// for (let [awardName, memberNames] of awardedMembers) {
-	// 	memberAwardsTable += `<tr><td>${linkToImg(awardName, 64)}</td>`;
-	// 	for (let memberName of memberNames) {
-	// 		memberAwardsTable += `<td>${memberName}</td>`;
-	// 	}
-	// 	for (let i = memberNames.length; i < rowCount; ++i) {
-	// 		memberAwardsTable += "<td></td>";
-	// 	}
-	// 	memberAwardsTable += "</tr>";
-	// }
 	achievementsHtml += memberAwardsTable;
 
 	achievementsHtml += createBlock("text", `Congratulations to the following ${linkToA(awards["Performance"]["Category"], "awards")}:`);

@@ -140,6 +140,7 @@ function sortArrays(arrays, comparator = (a, b) => (a < b) ? -1 : (a > b) ? 1 : 
 			}
 		}
 	}
+	outliers.sort((a, b) => +b.split("-")[2] - +a.split(" - ")[2]);
 
 	let csv = parse(outcome.get()).slice(1);
 	let allRanks = Array.from(Array(14), () => Array());
