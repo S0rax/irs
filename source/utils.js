@@ -36,11 +36,14 @@ module.exports = {
 	},
 	/**
 	 * Fetches local (if exists) or online csv and saves it.
-	 * @param day {string}
+	 * @param day {string|Date}
 	 * @return {string}
 	 */
 	getCsv: async function (day) {
 		const url = "https://api.dmg-inc.com/reports/download/";
+		if (day instanceof Date) {
+			day = day.toLocaleDateString();
+		}
 		let dots = day.replaceAll("/", ".");
 		let path = this.csvDir + dots + ".csv";
 		if (fs.existsSync(path)) {

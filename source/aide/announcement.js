@@ -9,18 +9,24 @@ const { readFileSync, writeFileSync } = require("fs");
  * 0. Install any required dependencies.
  * 1. Next to this file should be folders input/ and output/
  * 2. input/ folder includes 6 lists:
- * 	a) listTriumphs.txt - has data from the triumphs sheet, cells E5:N
- * 	b) listVanguard.txt - has data from the vanguard subscribers sheet, cells H4:H,O4:O
- * 	c) listLM.txt - has data from LM, already in correct format
- * 	d) listCaptains.txt - has data from IMP Completion list, cells B5:C
- * 	e) listOfficers.txt - has data from IMP Completion list, cells F5:G
- * 	f) listPromotions.txt - has data from IMP Promotions, cells B7:L
+ * 	a) listTriumphs.tsv - has data from the triumphs sheet, cells E5:N
+ * 	b) listVanguard.tsv - has data from the vanguard subscribers sheet, cells H4:H,O4:O
+ * 	c) listLM.tsv - has data from LM, already in correct format
+ * 	d) listCaptains.tsv - has data from IMP Completion list, cells B5:C
+ * 	e) listOfficers.tsv - has data from IMP Completion list, cells F5:G
+ * 	f) listPromotions.tsv - has data from IMP Promotions, cells B7:L
  * All of the above lists should already be filtered to include correct date.
  * 3. Update the ymd variable to have today's date. This script should be run the month after the news.
  * 4. Run it using command node announcement.js - execution might take a minute.
  * 5. Copy the contents of announcement.html to a new message on DI through source button.
  */
 
+/**
+ * Gets data from local files.
+ * @param {string} type Predetermined data type
+ * @param {string} path File path
+ * @return {Object} Formatted file data object
+ */
 function inputHandler(type, path) {
 	let data = readFileSync(join(__dirname, "./input/", path), "utf-8").split("\r\n").map(line => line.split("\t"));
 	switch (type) {
@@ -143,32 +149,62 @@ function inputHandler(type, path) {
 	}
 }
 
+/**
+ * Puts data to a file in folder output/.
+ * @param {string} path Name / path to the file
+ * @param {string} data Contents to fill the file
+ */
 function outputHandler(path, data) {
-	return writeFileSync(join(__dirname, "./output/", path), data);
+	writeFileSync(join(__dirname, "./output/", path), data);
 }
 
+/**
+ * Gets month string by index.
+ * @param {number} month Index
+ * @return {string} Month
+ */
 function monthFormat(month) {
 	return ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"][month];
 }
 
+/**
+ * Transposes an mxn matrix to nxm.
+ * @param {[][]} m 2D array
+ * @return {[][]} 2D array
+ */
 function transpose(m) {
 	return m[0].map((x, i) => m.map(x => x[i]));
 }
 
+/**
+ * Gets rank's position.
+ * @param {string} rank Rank
+ * @return {number} Ordinal number
+ */
 function rankVal(rank) {
-	let ranks = ["Captain", "L4", "L5", "L6", "L7", "L8", "Leader"];
+	let ranks = ["L3", "L4", "L5", "L6", "L7", "L8", "Leader"];
 	if (ranks.includes(rank))
 		return ranks.indexOf(rank);
 	throw new Error(`Unexpected rank: ${rank}`);
 }
 
+/**
+ * Gets order's position.
+ * @param {string} order Order
+ * @return {number} Ordinal number
+ */
 function orderVal(order) {
-	let orders = ["AFU", "IMP", "LM", "VP"];
+	let orders = ["AFU", "IMP", "LM", "VP", "OPS", "DEV"];
 	if (orders.includes(order))
 		return orders.indexOf(order);
 	throw new Error(`Unexpected order: ${order}`);
 }
 
+/**
+ * Changes a cardinal number to roman numeral with DI- prefix.
+ * @param {number} num Number
+ * @return {string|boolean} Roman numeral or false if failed.
+ */
 function romanize(num) {
 	if (!+num)
 		return false;
@@ -183,6 +219,11 @@ function romanize(num) {
 	return "DI-" + Array(+digits.join("") + 1).join("M") + roman;
 }
 
+/**
+ * Changes a roman numeral with DI- prefix to cardinal number.
+ * @param {string} str Roman numeral
+ * @return {number|boolean} Number or false if failed.
+ */
 function deromanize(str) {
 	str = str.substring(3).toUpperCase();
 	let validator = /^M*(?:D?C{0,3}|C[MD])(?:L?X{0,3}|X[CL])(?:V?I{0,3}|I[XV])$/,
@@ -196,6 +237,12 @@ function deromanize(str) {
 	return num;
 }
 
+/**
+ * Compares 2 divisions and returns the relative order of divisions based on the higher number or the higher letter in cases of seed divs or the higher order value in cases of orders.
+ * @param {string} a Division A
+ * @param {string} b Division B
+ * @return {number} Division's respective order
+ */
 function divSort(a, b) {
 	let divA, divB;
 	[divA, divB] = [deromanize(a), deromanize(b)];
@@ -212,24 +259,52 @@ function divSort(a, b) {
 	return divA - divB;
 }
 
+/**
+ * Translates a number to its ordinal English equivalent.
+ * @param {number} n Number
+ * @return {string} Ordinal string
+ */
 function ordinal(n) {
 	let s = ["th", "st", "nd", "rd"],
 		v = n % 100;
 	return n + (s[(v - 20) % 10] || s[v] || s[0]);
 }
 
+/**
+ * Gets an array item with the highest given property value
+ * @param {[]} arr Array of items
+ * @param {string} prop Property name
+ * @return {*} Filtered array item
+ */
 function objMax(arr, prop) {
 	return arr.reduce((prev, current) => (prev[prop] > current[prop]) ? prev : current);
 }
 
+/**
+ * Changes given link to an HTML img node with given size.
+ * @param {string} link Link to source
+ * @param {number} size Image size
+ * @return {string} HTML string
+ */
 function linkToImg(link, size) {
 	return `<img src="${link}" alt="${link.substr(link.lastIndexOf("/") + 1)}" height="${size}" width="${size}">`;
 }
 
+/**
+ * Changes given link to an HTML anchor node with given text.
+ * @param {string} link Link to source
+ * @param {string} text Text to be displayed instead of the link
+ */
 function linkToA(link, text) {
 	return `<a href="${link}">${text}</a>`;
 }
 
+/**
+ * Generates predetermined HTML blocks used in announcements.
+ * @param {string} type Block type
+ * @param {string} content Text to be displayed in the block
+ * @return {string} HTML string
+ */
 function createBlock(type, content) {
 	if (type === "header") {
 		return `<p><span style="color: #b64240; font-size: 36px">${content}</span></p>`;
@@ -246,15 +321,32 @@ function createBlock(type, content) {
 	}
 }
 
+/**
+ * Generates HTML block for a selected member with their division logo displayed. Put in spans, not paragraphs.
+ * @param {Object} member CSV row of selected member
+ * @param {string} description Text inserted after member name
+ * @param {Object} logos Division logos object
+ * @return {string} HTML string
+ */
 function topMember(member, description, logos) {
 	let block = createBlock("top", `${linkToImg(logos[member["division"]].small, 16)} ${member["name"]} - ${description}`);
 	return block.substring(3, block.length - 4);
 }
 
+/**
+ * Formats date object to 'MM YYYY' standard.
+ * @param {Date} date Date
+ * @return {string} Formatted string
+ */
 function mmYY(date) {
 	return `${monthFormat(date.getMonth())} ${date.getFullYear()}`;
 }
 
+/**
+ * Fetches a webpage.
+ * @param {string} url Page to visit
+ * @return {Promise<*>} Connection promise
+ */
 async function getUrl(url) {
 	return await (await fetch(url, {
 		headers: {
@@ -266,7 +358,7 @@ async function getUrl(url) {
 (async () => {
 	"use strict";
 	utils.init();
-	let ymd = "2021-04-01";
+	let ymd = "2021-07-02";
 	let now = new Date(ymd);
 	let rows = await utils.reportHandler(now);
 	let announcementHTML = "";
@@ -284,13 +376,13 @@ async function getUrl(url) {
 	let triumphHtml = createBlock("header", "Triumphs This Month");
 	triumphHtml += createBlock("text", `Congratulations to the following ${linkToA(awards["Triumphs"]["Category"], "Triumphs")}:`);
 
-	let triumphs = inputHandler("Triumphs", "listTriumphs.txt");
+	let triumphs = inputHandler("Triumphs", "listTriumphs.tsv");
 	let activeTriumphs = triumphs.filter(triumph => !triumph["revoked"] && triumph["date"].getMonth() === newsDate.getMonth());
 	activeTriumphs.forEach(triumph => {
 		let logo = linkToImg(awards["Triumphs"][triumph["triumph"]]["logo"], 32);
 		let name = `<span style="color: #b64240; font-size: 16px"> ${triumph["triumph"]}</span><br>`;
-		let text = `<span style="color: #555555; font-size: 16px">${awards["Triumphs"][triumph["triumph"]].text}</span>`;
-		text = text.replace("DL", `${rankLogos["L6"]}<span style="color: ${rankColours["L6"]}">${triumph["divisionLeader"]}</span>`);
+		let text = `<span style="color: #555555; font-size: 16px">${awards["Triumphs"][triumph["triumph"]]["text"]}</span>`
+			.replace("DL", `${rankLogos["L6"]}<span style="color: ${rankColours["L6"]}">${triumph["divisionLeader"]}</span>`);
 
 		if (triumph["viceAwarded"]) {
 			text = text.replace("DV", `${rankLogos["L5"]}<span style="color: ${rankColours["L5"]}">${triumph["vice"]}</span>`);
@@ -298,11 +390,11 @@ async function getUrl(url) {
 			text = text.replace("and DV", "");
 		}
 
-		text = text.replace("division1", triumph["division"]);
-		text = text.replace("division2", triumph["splitDiv"]);
-		text = text.replace("house", triumph["house"]);
-		text = text.replace("month", monthFormat(triumph["date"].getMonth()));
-		text = text.replace("year", String(triumph["date"].getFullYear()));
+		text = text.replace("division1", triumph["division"])
+			.replace("division2", triumph["splitDiv"])
+			.replace("house", triumph["house"])
+			.replace("month", monthFormat(triumph["date"].getMonth()))
+			.replace("year", String(triumph["date"].getFullYear()));
 		text += `<br><span style="color: #b64240; font-style: italic">${awards["Triumphs"][triumph["triumph"]]["desc"]}</span><br>`;
 		triumphHtml += createBlock("triumph", linkToImg(divLogos[triumph["splitDiv"] === "-" ? triumph["division"] : triumph["splitDiv"]].big, 150));
 		triumphHtml += createBlock("triumph", logo + name + text);
@@ -314,7 +406,7 @@ async function getUrl(url) {
 	let vanguardHtml = createBlock("header", "New Vanguard Members");
 	vanguardHtml += createBlock("text", "Thanks to these awesome people we are one step closer to achieving our 2021 Goals - so shout out to all the members below for taking the leap of faith and backing DI!");
 
-	let vanguards = inputHandler("Vanguard", "listVanguard.txt");
+	let vanguards = inputHandler("Vanguard", "listVanguard.tsv");
 	let activeVanguard = vanguards.filter(vg => vg["startDate"] >= newsDate && rows.find(row => row["name"])).map(vg => vg["name"]);
 	let vgLogo = linkToImg(divLogos["misc"]["Vanguard"], 32);
 	let cols = 4;
@@ -325,20 +417,19 @@ async function getUrl(url) {
 		vanguardTable += i % cols === 0 && i !== 0 ? `</tr><tr>${format}` : format;
 	}
 	vanguardTable += "</tr></table>";
-	outputHandler("vanguard.html", vanguardTable);
-
 	vanguardHtml += vanguardTable;
+	outputHandler("vanguard.html", vanguardTable);
 
 	// 4. initiation
 
 	let graduatesHtml = createBlock("header", "Associate Graduation Ceremony");
 	graduatesHtml += createBlock("text", `Congratulations to the <span style="color:#dddddd">Cohort of ${mmYY(newsDate)}</span> for joining our ranks as full members. You have no doubt gone through a somewhat difficult process in the adjusting to life in DI but we hope that it has been worth it and you have now found a new home here with us. Due to the demand, some of you have been offered officer positions to take up more responsibility within the community. Ensure you use this to the glory of DI and always for the best of the community as a whole.`);
 	graduatesHtml += createBlock("text", "The Top 3 for this Cohort are:");
-	graduatesHtml += createBlock("text", linkToImg(awards["Special"]["LM1"], 40) + "Member");
-	graduatesHtml += createBlock("text", linkToImg(awards["Special"]["LM2"], 40) + "Member");
-	graduatesHtml += createBlock("text", linkToImg(awards["Special"]["LM3"], 40) + "Member");
+	graduatesHtml += createBlock("text", linkToImg(awards["Honors"]["LM1"], 40) + "Member");
+	graduatesHtml += createBlock("text", linkToImg(awards["Honors"]["LM2"], 40) + "Member");
+	graduatesHtml += createBlock("text", linkToImg(awards["Honors"]["LM3"], 40) + "Member");
 
-	let graduates = inputHandler("LM", "listLM.txt");
+	let graduates = inputHandler("LM", "listLM.tsv");
 	graduates.sort((a, b) => {
 		[a, b] = [a["division"], b["division"]];
 		let romanTest = /[^IXVDLCM-]+/;
@@ -373,22 +464,22 @@ async function getUrl(url) {
 		graduatesTable += "</tr>";
 	}
 	graduatesTable += "</table>";
-	outputHandler("graduates.html", graduatesTable);
 
 	graduatesHtml += createBlock("text", `Congratulations to the <span style="color:#dddddd">${graduates.length} Members</span> part of the <span style="color:#dddddd">Cohort of ${mmYY(newsDate)}</span> for becoming full members of Damage Inc.`);
 	graduatesHtml += graduatesTable;
+	outputHandler("graduates.html", graduatesTable);
 
 
 	// 5. imp
 	let impHtml = createBlock("header", "Imperium Ceremony");
 	impHtml += createBlock("text", `Congratulations to the <span style="color: #dddddd">${mmYY(newsDate)}</span> Imperium Graduates. It has always been seen as an honor to lead members, and therefore disrespectful if the absolute best effort was not given when presented with the opportunity. You have gone through a hard month in the Imperium Order, where many of your peers fell and weren't able to reach the standards set for Officers within DI, but you’ve prevailed and shown you’ve got what it takes.`);
 	impHtml += createBlock("text", "The Top 3 for this Cohort are:");
-	impHtml += createBlock("text", linkToImg(awards["Special"]["IMP1"], 40) + "Member");
-	impHtml += createBlock("text", linkToImg(awards["Special"]["IMP2"], 40) + "Member");
-	impHtml += createBlock("text", linkToImg(awards["Special"]["IMP3"], 40) + "Member");
+	impHtml += createBlock("text", linkToImg(awards["Honors"]["IMP1"], 40) + "Member");
+	impHtml += createBlock("text", linkToImg(awards["Honors"]["IMP2"], 40) + "Member");
+	impHtml += createBlock("text", linkToImg(awards["Honors"]["IMP3"], 40) + "Member");
 
-	let captains = inputHandler("IMP", "listCaptains.txt").sort((a, b) => divSort(a["division"], b["division"]));
-	let officers = inputHandler("IMP", "listOfficers.txt").sort((a, b) => divSort(a["division"], b["division"]));
+	let captains = inputHandler("IMP", "listCaptains.tsv").sort((a, b) => divSort(a["division"], b["division"]));
+	let officers = inputHandler("IMP", "listOfficers.tsv").sort((a, b) => divSort(a["division"], b["division"]));
 	let cptLen = captains.length;
 	let offLen = officers.length;
 	let impRows = new Map();
@@ -400,7 +491,7 @@ async function getUrl(url) {
 	let optimal = [...impRows.entries()].reduce((a, b) => Math.abs(b[1][0] - b[1][1]) < Math.abs(a[1][0] - a[1][1]) ? b : a);
 	let rowsNum = Math.max(optimal[1][0], optimal[1][1]) + 1;
 	let colNum = optimal[0];
-	let impTable = `<table style="width: 100%; border: 0"><tr><td style="color: #9b59b6; font-size: 16px" colspan="${colNum[0]}">Officers</td><td style="color: #9b59b6; font-size: 16px"  colspan="${colNum[1]}">Captains</td></tr>`;
+	let impTable = `<table style="width: 100%; border: 0"><tr><td style="color: #9b59b6; font-size: 16px" colspan="${colNum[0]}">Officers</td><td style="color: #9b59b6; font-size: 16px" colspan="${colNum[1]}">Captains</td></tr>`;
 	let impArr = [];
 
 	[officers, captains].forEach(group => {
@@ -431,12 +522,12 @@ async function getUrl(url) {
 	topHtml += createBlock("title", "Member of the Month");
 	topHtml += createBlock("text", `Congratulations to the following member for winning ${linkToA(awards["Performance"]["Category"], "MOTM")}:`);
 
-	let members = rows.filter(row => ["Away", "Captain", "Elite", "Member", "Probation", "Specialist", "Vanguard"].includes(row["rank"]) && row["position"] === "TM");
+	let members = rows.filter(row => ["Away", "L3", "Elite", "Member", "Probation", "Specialist", "Vanguard"].includes(row["rank"]) && row["position"] === "TM");
 	let motm = objMax(members, "rep_lm");
 	let topRep = objMax(rows, "rep_lm");
 	let topRecruit = objMax(rows, "recruits_lm");
 	let topEvent = objMax(rows, "events_lm");
-	let topEventHost = objMax(rows, "events_hosted_lm");
+	let topEventHost = objMax(rows, "host_event_secs_tm");
 
 	topHtml += createBlock("top", linkToImg(awards["Performance"]["Motm"], 32) + motm["name"]);
 	topHtml += createBlock("title", "Other Notable Members");
@@ -453,7 +544,7 @@ async function getUrl(url) {
 	let promotionsHtml = createBlock("header", "Promotions");
 	promotionsHtml += createBlock("text", "Congratulations to:");
 
-	let promoted = inputHandler("Promotions", "listPromotions.txt");
+	let promoted = inputHandler("Promotions", "listPromotions.tsv");
 	let unique = [...new Map(promoted.map(line => [line["name"], line])).values()];
 	unique.sort((a, b) => {
 		let divA, divB, rankA, rankB;
@@ -462,6 +553,11 @@ async function getUrl(url) {
 
 		if (rankA !== rankB)
 			return rankB - rankA;
+		// ops on top
+		if (a["unit"] === "OPS")
+			return -1;
+		if (b["unit"] === "OPS")
+			return 1;
 		// house on top
 		if (a["position"].includes("House"))
 			return -1;
@@ -510,10 +606,10 @@ async function getUrl(url) {
 		} else {
 			unitText = `${ordinal(arabic)} Division`;
 		}
-		if (position.startsWith("Division") && position !== "Division Leader") {
+		if (position === "Division Vice") {
 			position = position.substring(9);
 		}
-		if (position.includes("Faction") || position.includes("House")) {
+		if (position.includes("House")) {
 			unitText = `${unit} ${promo["house"]}`;
 		}
 		if (unitText !== "") {
@@ -523,46 +619,51 @@ async function getUrl(url) {
 		promoFormat.push(`<span style="font-size:16px">${logo}<span style="color:${colour}">${promo["name"]} </span><span style="color:#555555">on promotion to </span><span style="color:#b64240;font-style: italic">${position}</span></span>`);
 	}
 	let promotions = promoFormat.join("<br>");
-	outputHandler("promotions.html", `<head><meta charset="utf-8"></head><body>${promotions}</body>`);
-
 	promotionsHtml += promotions;
+
+	outputHandler("promotions.html", `<head><meta charset="utf-8"></head><body>${promotions}</body>`);
 
 	// 8. officer / member achievements
 	let achievementsHtml = createBlock("header", "Achievements & Awards");
 	achievementsHtml += createBlock("text", `Congratulations to the following ${linkToA(awards["Officer"]["Category"], "officer achievements")}:`);
 
 	let selector = "li.ipsGrid_span4.ipsPhotoPanel.ipsPhotoPanel_mini.ipsClearfix.ipsPad_half";
+	let link = "https://forum.dmginc.gg/index.php?app=awards&module=awards&controller=awards&do=awarded&id=[ID]&page=";
 	let awardedOfficers = [];
 	for (let awardName in awards["Officer"]) {
 		let award = awards["Officer"][awardName];
-		let link = award.url;
-		if (!link)
-			continue;
-		let i = 1;
-		while (i) {
-			let data = await getUrl(link + i);
-			try {
-				JSON.parse(data);
-				break;
-			} catch (e) {
-				let root = parse(data);
-				let profiles = root.querySelectorAll(selector);
-				if (profiles.length === 0) {
-					i = -1;
-				}
-				for (let profile of profiles) {
-					let name = profile.childNodes[3].childNodes[1].innerText.trim();
-					let date = profile.childNodes[3].childNodes[3].childNodes[0].getAttribute("datetime");
-					if (new Date(date) < newsDate) {
+		let id = award["id"];
+		if (id) {
+			let localLink = link.replace("[ID]", id);
+			let i = 1;
+			while (i) {
+				let data = await getUrl(localLink + i);
+				try {
+					JSON.parse(data);
+					break;
+				} catch (e) {
+					let root = parse(data);
+					let profiles = root.querySelectorAll(selector);
+					if (profiles.length === 0) {
 						i = -1;
-						break;
-					} else {
-						let rank = rows.find(row => row["name"] === name)["rank"];
-						awardedOfficers.push(`<span style="font-size: 16px">${linkToImg(award["logo"], 40)}${rankLogos[rank] ?? ""}<span style="color: ${rankColours[rank]}">${name}</span><span style="color: #555555"> - ${awardName}</span></span>`);
+					}
+					for (let profile of profiles) {
+						let name = profile.childNodes[3].childNodes[1].innerText.trim();
+						let date = profile.childNodes[3].childNodes[3].childNodes[0].getAttribute("datetime");
+						if (new Date(date) < newsDate) {
+							i = -1;
+							break;
+						} else {
+							let match = rows.find(row => row["name"] === name);
+							if (match !== undefined) {
+								let rank = match["rank"];
+								awardedOfficers.push(`<span style="font-size: 16px">${linkToImg(award["logo"], 40)}${rankLogos[rank] ?? ""}<span style="color: ${rankColours[rank]}">${name}</span><span style="color: #555555"> - ${awardName}</span></span>`);
+							}
+						}
 					}
 				}
+				i++;
 			}
-			i++;
 		}
 	}
 	achievementsHtml += awardedOfficers.join("<br>");
@@ -571,52 +672,47 @@ async function getUrl(url) {
 
 	let memberAwards = { ...awards["Member"], ...awards["Special"] };
 	delete memberAwards["category"];
-	delete memberAwards["LM1"];
-	delete memberAwards["LM2"];
-	delete memberAwards["LM3"];
-	delete memberAwards["IMP1"];
-	delete memberAwards["IMP2"];
-	delete memberAwards["IMP3"];
 
 	let awardedMembers = new Map();
 	for (let awardName in memberAwards) {
 		let award = memberAwards[awardName];
-		let link = award.url;
-		if (!link)
-			continue;
-		let i = 1;
-		let awarded = [];
-		while (i) {
-			let data = await getUrl(link + i);
-			try {
-				JSON.parse(data);
-				break;
-			} catch (e) {
-				let root = parse(data);
-				let profiles = root.querySelectorAll(selector);
-				if (profiles.length === 0) {
-					i = -1;
-				}
-				for (let profile of profiles) {
-					let name = profile.childNodes[3].childNodes[1].innerText.trim();
-					let date = profile.childNodes[3].childNodes[3].childNodes[0].getAttribute("datetime");
-					if (new Date(date) < newsDate) {
+		let id = award["id"];
+		if (id) {
+			let localLink = link.replace("[ID]", id);
+			let awarded = [];
+			let i = 1;
+			while (i) {
+				let data = await getUrl(localLink + i);
+				try {
+					JSON.parse(data);
+					break;
+				} catch (e) {
+					let root = parse(data);
+					let profiles = root.querySelectorAll(selector);
+					if (profiles.length === 0) {
 						i = -1;
-						break;
-					} else {
-						awarded.push(name);
+					}
+					for (let profile of profiles) {
+						let name = profile.childNodes[3].childNodes[1].innerText.trim();
+						let date = profile.childNodes[3].childNodes[3].childNodes[0].getAttribute("datetime");
+						if (new Date(date) < newsDate) {
+							i = -1;
+							break;
+						} else {
+							awarded.push(name);
+						}
 					}
 				}
+				awardedMembers.set(awardName, Array.from(awarded));
+				i++;
 			}
-			awardedMembers.set(awardName, Array.from(awarded));
-			i++;
 		}
 	}
 	awardedMembers = [...awardedMembers.entries()].filter(([k, v]) => v.length).map(([k, v]) => {
 		v.unshift(k);
 		return v;
 	});
-	rowCount = awardedMembers.reduce((prev, next) => prev.length > next.length ? prev : next).length + 1
+	rowCount = awardedMembers.reduce((prev, next) => prev.length > next.length ? prev : next).length + 1;
 	let memberAwardsTable = "<table style='border: 0; width: 100%'>";
 	let awardedMembers2d = [];
 	awardedMembers.forEach(col => {
